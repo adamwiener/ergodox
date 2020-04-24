@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // right hand
   TG(FUNC),            KC_7,             KC_8,         KC_9,        KC_0,         KC_MINUS,     LCMD(LCTL(KC_Q)),
   KC_RBRACKET,         KC_J,             KC_L,         KC_U,        KC_Y,         KC_SCOLON,    KC_QUOTE,
-  KC_H,                KC_N,             KC_E,         KC_I,        KC_O,         KC_SLASH,
+                       KC_H,             KC_N,         KC_E,        KC_I,         KC_O,         KC_SLASH,
   KC_RIGHT_PAREN,      KC_K,             KC_M,         KC_COMM,     KC_DOT,       KC_UP,        RSFT_T(KC_GRAVE),
                                          KC_BSLASH,    KC_EQUAL,    KC_LEFT,      KC_DOWN,      KC_RIGHT,
   DYN_MACRO_PLAY1,     DYN_MACRO_PLAY2,
@@ -87,20 +87,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [QWER] = LAYOUT_ergodox(
   // left hand
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,        KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,
+  KC_TRNS,      KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,         KC_TRNS,
   KC_TRNS,      KC_A,       KC_S,       KC_D,       KC_F,       KC_G,
-  KC_LSHIFT,    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,        KC_TRNS,
+  KC_LSHIFT,    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,         KC_TRNS,
   KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                                KC_TRNS,     KC_TRNS,
-                                                                             KC_TRNS,
-                                                    KC_TRNS,    KC_TRNS,     KC_TRNS,
+                                                                KC_TRNS,      KC_TRNS,
+                                                                              KC_TRNS,
+                                                    KC_TRNS,    KC_TRNS,      KC_TRNS,
   // right hand
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,        KC_TRNS,
-  KC_TRNS,      KC_H,       KC_J,       KC_K,       KC_L,       KC_SCOLON,
-  KC_TRNS,      KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLASH,    KC_RSHIFT,
-                            KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,
+  KC_TRNS,      KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,         KC_TRNS,
+                KC_H,       KC_J,       KC_K,       KC_L,       KC_SCOLON,    KC_TRNS,
+  KC_TRNS,      KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLASH,     KC_RSHIFT,
+                            KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,      KC_TRNS,
   KC_TRNS,      KC_TRNS,
   KC_TRNS,
   KC_TRNS,      KC_TRNS,    KC_TRNS
@@ -126,25 +126,66 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[FUNC] = LAYOUT_ergodox(  // haven't configured this yet
+[FUNC] = LAYOUT_ergodox(
   // left hand
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                               KC_TRNS, KC_TRNS,
-                                                        KC_TRNS,
-                                      KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_TRNS,     KC_BRID,        KC_BRIU,      C(KC_UP),    KC_BRMD,    KC_BRMU,     KC__MUTE,
+  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,
+  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,
+                                                                      KC_TRNS,     KC_TRNS,
+                                                                                   KC_TRNS,
+                                                          KC_TRNS,    KC_TRNS,     KC_TRNS,
   // right hand
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS,
+  KC_TRNS,     KC__VOLDOWN,    KC__VOLUP,    KC_MRWD,     KC_MPLY,    KC_MFFD,     KC_TRNS,
+  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
+               KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
+                               KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,     KC_TRNS,
   KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS
+  KC_TRNS,     KC_TRNS,        KC_TRNS
+),
+/* Keymap 3: Stenography
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * | Esc/Fn | Brt- | Brt+ |Expose|KBrt- |KBrt+ | Mute |           |  Fn  | Vol- | Vol+ | Prev | Play | Next |        |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+[STEN] = LAYOUT_ergodox(
+  // left hand
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+                                                                KC_TRNS,     KC_TRNS,
+                                                                             KC_TRNS,
+                                                    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  // right hand
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+                            KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,
+  KC_TRNS,
+  KC_TRNS,      KC_TRNS,    KC_TRNS
 ),
 };
 
