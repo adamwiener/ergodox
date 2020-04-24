@@ -149,13 +149,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 3: Stenography
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc/Fn | Brt- | Brt+ |Expose|KBrt- |KBrt+ | Mute |           |  Fn  | Vol- | Vol+ | Prev | Play | Next |        |
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |  #   |  #   |  #   |  #   |  *   |           |  *   |  #   |  #   |  #   |  #   |  #   |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |  S   |  T   |  P   |  H   |------|           |------|  F   |  P   |  L   |  T   |  D   |        |
+ * |--------+------+------+------+------+------|  *   |           |  *   |------+------+------+------+------+--------|
+ * | Steno  |      |  S   |  K   |  W   |  R   |      |           |      |  R   |  B   |  G   |  S   |  Z   |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -163,29 +163,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
- *                                 |      |      |------|       |------|      |      |
+ *                                 |  A   |  O   |------|       |------|  E   |  U   |
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
 [STEN] = LAYOUT_ergodox(
   // left hand
   KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_TRNS,      KC_TRNS,    STN_N1,     STN_N2,     STN_N3,     STN_N4,      STN_ST1,
+  KC_TRNS,      KC_TRNS,    STN_S1,     STN_TL,     STN_PL,     STN_HL,
+  KC_TRNS,      KC_TRNS,    STN_S2,     STN_KL,     STN_WL,     STN_RL,      STN_ST2,
   KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
                                                                 KC_TRNS,     KC_TRNS,
                                                                              KC_TRNS,
-                                                    KC_TRNS,    KC_TRNS,     KC_TRNS,
+                                                    STN_A,      STN_O,       KC_TRNS,
   // right hand
   KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-                KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
+  STN_ST3,      STN_N5,     STN_N6,     STN_N7,     STN_N8,     STN_N9,      KC_TRNS,
+                SFN_FR,     STN_PR,     STN_LR,     STN_TR,     STN_DR,      KC_TRNS,
+  STN_ST4,      STN_RR,     STN_BR,     STN_GR,     STN_SR,     STN_ZR,      KC_TRNS,
                             KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
   KC_TRNS,      KC_TRNS,
   KC_TRNS,
-  KC_TRNS,      KC_TRNS,    KC_TRNS
+  KC_TRNS,      STN_E,      STN_U
 ),
 };
 
