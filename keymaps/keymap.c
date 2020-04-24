@@ -46,23 +46,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [BASE] = LAYOUT_ergodox(
   // left hand
-  LT(FUNC, KC_ESC),   KC_1,          KC_2,          KC_3,     KC_4,       KC_5,        KC_6,
-  KC_TAB,             KC_Q,          KC_W,          KC_F,     KC_P,       KC_G,        KC_LBRACKET,
-  KC_LCMD,            KC_A,          KC_R,          KC_S,     KC_T,       KC_D,
-  TG(STEN),           KC_Z,          KC_X,          KC_C,     KC_V,       KC_B,        KC_LEFT_PAREN,
-  LCMD(KC_LBRC),      LCMD(KC_RBRC), TG(QWER),      KC_LCTRL, KC_LOPT,
-                                                                          MO(EMOJ),   LCMD(KC_BSLASH),
-                                                                                      PTPASTE,
-                                                              KC_LSHIFT,  KC_ENTER,   LCMD(LOPT(KC_V)),
+  LT(FUNC, KC_ESC),    KC_1,             KC_2,         KC_3,        KC_4,         KC_5,         KC_6,
+  KC_TAB,              KC_Q,             KC_W,         KC_F,        KC_P,         KC_G,         KC_LBRACKET,
+  KC_LCMD,             KC_A,             KC_R,         KC_S,        KC_T,         KC_D,
+  TG(STEN),            KC_Z,             KC_X,         KC_C,        KC_V,         KC_B,         KC_LEFT_PAREN,
+  LCMD(KC_LBRC),       LCMD(KC_RBRC),    TG(QWER),     KC_LCTRL,    KC_LOPT,
+                                                                                  MO(EMOJ),     LCMD(KC_BSLASH),
+                                                                                                PTPASTE,
+                                                                    KC_LSHIFT,    KC_ENTER,     LCMD(LOPT(KC_V)),
   // right hand
-  TG(FUNC),        KC_7,            KC_8,      KC_9,     KC_0,       KC_MINUS,       LCMD(LCTL(KC_Q)),
-  KC_RBRACKET,     KC_J,            KC_L,      KC_U,     KC_Y,       KC_SCOLON,      KC_QUOTE,
-  KC_H,            KC_N,            KC_E,      KC_I,     KC_O,       KC_SLASH,
-  KC_RIGHT_PAREN,  KC_K,            KC_M,      KC_COMM,  KC_DOT,     KC_UP,          RSFT_T(KC_GRAVE),
-                                    KC_BSLASH, KC_EQUAL, KC_LEFT,    KC_DOWN,        KC_RIGHT,
-  DYN_MACRO_PLAY1, DYN_MACRO_PLAY2,
+  TG(FUNC),            KC_7,             KC_8,         KC_9,        KC_0,         KC_MINUS,     LCMD(LCTL(KC_Q)),
+  KC_RBRACKET,         KC_J,             KC_L,         KC_U,        KC_Y,         KC_SCOLON,    KC_QUOTE,
+  KC_H,                KC_N,             KC_E,         KC_I,        KC_O,         KC_SLASH,
+  KC_RIGHT_PAREN,      KC_K,             KC_M,         KC_COMM,     KC_DOT,       KC_UP,        RSFT_T(KC_GRAVE),
+                                         KC_BSLASH,    KC_EQUAL,    KC_LEFT,      KC_DOWN,      KC_RIGHT,
+  DYN_MACRO_PLAY1,     DYN_MACRO_PLAY2,
   ALT_TAB,
-  LCMD(KC_SLASH),  KC_BSPACE,       KC_SPACE
+  LCMD(KC_SLASH),      KC_BSPACE,        KC_SPACE
 ),
 /* Keymap 1: QWERTY Layer
 *
