@@ -22,6 +22,52 @@ enum custom_keycodes {
   RGB_SLD
 };
 
+enum unicode_names {
+  HRTEYES,
+  WINK,
+  BEG,
+  BLUSH,
+  SMIRK,
+  ROLLEYES,
+  MONOC,
+  CRYING,
+  UGH,
+  HMM,
+  SWEAT,
+  NAILS,
+  FIRE,
+  HEART,
+  SHRUG
+  UPSDOWN,
+  PRAY,
+  WAVE,
+  THUP,
+  EYES
+};
+
+const uint32_t PROGMEM unicode_map[] = {
+  [HRTEYES] = 0x1F60D,
+  [WINK] = 0x1F609,
+  [BEG] = 0x1F97A,
+  [BLUSH] = 0x1F633,
+  [SMIRK] = 0x1F60F,
+  [ROLLEYES] = 0x1F644,
+  [MONOC] = 0x1F9D0,
+  [CRYING] = 0x1F62D,
+  [UGH] = 0x1F612,
+  [HMM] = 0x1F914,
+  [SWEAT] = 0x1F605,
+  [NAILS] = 0x1F485,
+  [FIRE] = 0x1F525,
+  [HEART] = 0xFE0F,
+  [SHRUG] = 0x1F937
+  [UPSDOWN] = 0x1F643,
+  [PRAY] = 0x1F64F,
+  [WAVE] = 0x1F44B,
+  [THUP] = 0x1F44D,
+  [EYES] = 0x1F440
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Default layer
  *
@@ -212,8 +258,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // left hand
   KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
   KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,     1F60D,          1F609,        1F97A,       1F633,      1F60F,
-  KC_TRNS,     1F644,          1F9D0,        1F62D,       1F612,      1F914,       KC_TRNS,
+  KC_TRNS,     X(HRTEYES),     X(WINK),      X(BEG),      X(BLUSH),   X(SMIRK),
+  KC_TRNS,     X(ROLLEYES),    X(MONOC),     X(CRYING),   X(UGH),     X(HMM),      KC_TRNS,
   KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,
                                                                       KC_TRNS,     KC_TRNS,
                                                                                    KC_TRNS,
@@ -221,8 +267,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // right hand
   KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
   KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-               1F605,          1F485,        1F525,       FE0F,       1F937,       KC_TRNS,
-  KC_TRNS,     1F643,          1F64F,        1F44B,       1F44D,      1F440,       KC_TRNS,
+               X(SWEAT),       X(NAILS),     X(FIRE),     X(HEART),   X(SHRUG),    KC_TRNS,
+  KC_TRNS,     X(UPSDOWN),     X(PRAY),      X(WAVE),     X(THUP),    X(EYES),     KC_TRNS,
                                KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
   KC_TRNS,     KC_TRNS,
   KC_TRNS,
