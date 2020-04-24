@@ -215,23 +215,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [STEN] = LAYOUT_ergodox(
   // left hand
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_TRNS,    STN_N1,     STN_N2,     STN_N3,     STN_N4,      STN_ST1,
-  KC_TRNS,      KC_TRNS,    STN_S1,     STN_TL,     STN_PL,     STN_HL,
-  KC_TRNS,      KC_TRNS,    STN_S2,     STN_KL,     STN_WL,     STN_RL,      STN_ST2,
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                                KC_TRNS,     KC_TRNS,
-                                                                             KC_TRNS,
-                                                    STN_A,      STN_O,       KC_TRNS,
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
+  KC_NO,      KC_NO,      STN_N1,     STN_N2,     STN_N3,     STN_N4,    STN_ST1,
+  KC_NO,      KC_NO,      STN_S1,     STN_TL,     STN_PL,     STN_HL,
+  KC_TRNS,    KC_NO,      STN_S2,     STN_KL,     STN_WL,     STN_RL,    STN_ST2,
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+                                                              KC_NO,     KC_NO,
+                                                                         KC_NO,
+                                                  STN_A,      STN_O,     KC_NO,
   // right hand
-  KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  STN_ST3,      STN_N5,     STN_N6,     STN_N7,     STN_N8,     STN_N9,      KC_TRNS,
-                SFN_FR,     STN_PR,     STN_LR,     STN_TR,     STN_DR,      KC_TRNS,
-  STN_ST4,      STN_RR,     STN_BR,     STN_GR,     STN_SR,     STN_ZR,      KC_TRNS,
-                            KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,      KC_TRNS,
-  KC_TRNS,
-  KC_TRNS,      STN_E,      STN_U
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
+  STN_ST3,    STN_N5,     STN_N6,     STN_N7,     STN_N8,     STN_N9,    KC_NO,
+              SFN_FR,     STN_PR,     STN_LR,     STN_TR,     STN_DR,    KC_NO,
+  STN_ST4,    STN_RR,     STN_BR,     STN_GR,     STN_SR,     STN_ZR,    KC_NO,
+                          KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
+  KC_NO,      KC_NO,
+  KC_NO,
+  KC_NO,      STN_E,      STN_U
 ),
 /* Keymap 4: Emoji
  *
@@ -256,23 +256,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [EMOJ] = LAYOUT_ergodox(
   // left hand
-  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,     X(HRTEYES),     X(WINK),      X(BEG),      X(BLUSH),   X(SMIRK),
-  KC_TRNS,     X(ROLLEYES),    X(MONOC),     X(CRYING),   X(UGH),     X(HMM),      KC_TRNS,
-  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,
-                                                                      KC_TRNS,     KC_TRNS,
-                                                                                   KC_TRNS,
-                                                          KC_TRNS,    KC_TRNS,     KC_TRNS,
+  KC_NO,    KC_NO,          KC_NO,        KC_NO,       KC_NO,       KC_NO,       KC_NO,
+  KC_NO,    KC_NO,          KC_NO,        KC_NO,       KC_NO,       KC_NO,       KC_NO,
+  KC_NO,    X(HRTEYES),     X(WINK),      X(BEG),      X(BLUSH),    X(SMIRK),
+  KC_NO,    X(ROLLEYES),    X(MONOC),     X(CRYING),   X(UGH),      X(HMM),      KC_NO,
+  KC_NO,    KC_NO,          KC_NO,        KC_NO,       KC_NO,
+                                                                    KC_TRNS,     KC_NO,
+                                                                                 KC_NO,
+                                                       KC_NO,       KC_NO,       KC_NO,
   // right hand
-  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-               X(SWEAT),       X(NAILS),     X(FIRE),     X(HEART),   X(SHRUG),    KC_TRNS,
-  KC_TRNS,     X(UPSDOWN),     X(PRAY),      X(WAVE),     X(THUP),    X(EYES),     KC_TRNS,
-                               KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
-  KC_TRNS,     KC_TRNS,
-  KC_TRNS,
-  KC_TRNS,     KC_TRNS,        KC_TRNS
+  KC_NO,    KC_NO,          KC_NO,        KC_NO,       KC_NO,       KC_NO,       KC_NO,
+  KC_NO,    KC_NO,          KC_NO,        KC_NO,       KC_NO,       KC_NO,       KC_NO,
+            X(SWEAT),       X(NAILS),     X(FIRE),     X(HEART),    X(SHRUG),    KC_NO,
+  KC_NO,    X(UPSDOWN),     X(PRAY),      X(WAVE),     X(THUP),     X(EYES),     KC_NO,
+                            KC_NO,        KC_NO,       KC_NO,       KC_NO,       KC_NO,
+  KC_NO,    KC_NO,
+  KC_NO,
+  KC_NO,    KC_NO,          KC_NO
 ),
 };
 
