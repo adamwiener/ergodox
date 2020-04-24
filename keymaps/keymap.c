@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Default layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc/Fn |   1  |   2  |   3  |   4  |   5  |  6   |           |  Fn  |   7  |   8  |   9  |   0  |   -  |  LOCK  |
+ * | Esc/Fn |   1  |   2  |   3  |   4  |   5  |  6   |           | Lock |   7  |   8  |   9  |   0  |   -  | Delete |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   F  |   P  |   G  |  {   |           |  }   |   J  |   L  |   U  |   Y  |  :/; |  "  '  |
  * |--------+------+------+------+------+------|  [   |           |  ]   |------+------+------+------+------+--------|
@@ -101,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                 PTPASTE,
                                                                     KC_LSHIFT,    KC_ENTER,     LCMD(LOPT(KC_V)),
   // right hand
-  TG(FUNC),            KC_7,             KC_8,         KC_9,        KC_0,         KC_MINUS,     LCMD(LCTL(KC_Q)),
+  LCMD(LCTL(KC_Q)),    KC_7,             KC_8,         KC_9,        KC_0,         KC_MINUS,     KC_DELETE,
   KC_RBRACKET,         KC_J,             KC_L,         KC_U,        KC_Y,         KC_SCOLON,    KC_QUOTE,
                        KC_H,             KC_N,         KC_E,        KC_I,         KC_O,         KC_SLASH,
   KC_RIGHT_PAREN,      KC_K,             KC_M,         KC_COMM,     KC_DOT,       KC_UP,        RSFT_T(KC_GRAVE),
@@ -154,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 2: Function keys
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc/Fn | Brt- | Brt+ |Expose|KBrt- |KBrt+ | Mute |           |  Fn  | Vol- | Vol+ | Prev | Play | Next |        |
+ * | Esc/Fn | Brt- | Brt+ |Expose|KBrt- |KBrt+ | Mute |           |      | Vol- | Vol+ | Prev | Play | Next |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
