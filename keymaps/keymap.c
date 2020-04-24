@@ -1,9 +1,14 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 
-#define BASE 0 // default layer
-#define SYMB 1 // symbols
-#define MDIA 2 // media keys
+#define BASE 0 // default layer (colemak layout)
+#define QWER 1 // qwerty layout
+#define FUNC 2 // function layer
+#define STEN 3 // stenography
+#define EMOJ 4 // emoji
+
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
 
 enum custom_keycodes {
 #ifdef ORYX_CONFIGURATOR
@@ -12,73 +17,75 @@ enum custom_keycodes {
   EPRM = SAFE_RANGE,
 #endif
   VRSN,
+  PTPASTE = SAFE_RANGE,
+  ALT_TAB = SAFE_RANGE,
   RGB_SLD
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap 0: Basic layer
+/* Keymap 0: Default layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * | Esc/Fn |   1  |   2  |   3  |   4  |   5  |  6   |           |  Fn  |   7  |   8  |   9  |   0  |   -  |  LOCK  |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Del    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | BkSp   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / L2|' / Cmd |
- * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
- * | LShift |Z/Ctrl|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//Ctrl| RShift |
+ * | Tab    |   Q  |   W  |   F  |   P  |   G  |  {   |           |  }   |   J  |   L  |   U  |   Y  |  :/; |  "  '  |
+ * |--------+------+------+------+------+------|  [   |           |  ]   |------+------+------+------+------+--------|
+ * | Cmd    |   A  |   R  |   S  |   T  |   D  |------|           |------|   H  |   N  |   E  |   I  |   O  |  ?  /  |
+ * |--------+------+------+------+------+------|  (   |           |  )   |------+------+------+------+------+--------|
+ * | Steno  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   K  |   M  |   ,  |   .  |  Up  | ` Shft |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |Grv/L1|  '"  |AltShf| Left | Right|                                       |  Up  | Down |   [  |   ]  | ~L1  |
+ *   | <Tab | >Tab |QWERTY| Ctrl | Optn |                                       | | \  | + =  | Left | Down | Right|
  *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
+ *                                        ,-------------.       ,---------------.
+ *                                        | Emoji| 1P   |       | Mac1 | Macro2 |
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
- *                                 |      |ace   | End  |       | PgDn |        |      |
+ *                                 |      |      |PTPast|       |AltTab|        |      |
+ *                                 | Shift|Enter |------|       |------|Backspce| Space|
+ *                                 |      |      |PMenu |       |Locale|        |      |
  *                                 `--------------------'       `----------------------'
  */
 [BASE] = LAYOUT_ergodox(
   // left hand
-  KC_EQL,          KC_1,        KC_2,          KC_3,    KC_4,    KC_5,    KC_LEFT,
-  KC_DEL,          KC_Q,        KC_W,          KC_E,    KC_R,    KC_T,    TG(SYMB),
-  KC_BSPC,         KC_A,        KC_S,          KC_D,    KC_F,    KC_G,
-  KC_LSFT,         CTL_T(KC_Z), KC_X,          KC_C,    KC_V,    KC_B,    ALL_T(KC_NO),
-  LT(SYMB,KC_GRV), KC_QUOT,     LALT(KC_LSFT), KC_LEFT, KC_RGHT,
-                                                           ALT_T(KC_APP), KC_LGUI,
-                                                                          KC_HOME,
-                                                         KC_SPC, KC_BSPC, KC_END,
+  LT(FUNC, KC_ESC),   KC_1,          KC_2,          KC_3,     KC_4,       KC_5,        KC_6,
+  KC_TAB,             KC_Q,          KC_W,          KC_F,     KC_P,       KC_G,        KC_LBRACKET,
+  KC_LCMD,            KC_A,          KC_R,          KC_S,     KC_T,       KC_D,
+  TG(STEN),           KC_Z,          KC_X,          KC_C,     KC_V,       KC_B,        KC_LEFT_PAREN,
+  LCMD(KC_LBRC),      LCMD(KC_RBRC), TG(QWER),      KC_LCTRL, KC_LOPT,
+                                                                          MO(EMOJ),   LCMD(KC_BSLASH),
+                                                                                      PTPASTE,
+                                                              KC_LSHIFT,  KC_ENTER,   LCMD(LOPT(KC_V)),
   // right hand
-  KC_RGHT,      KC_6,    KC_7,    KC_8,    KC_9,              KC_0,           KC_MINS,
-  TG(SYMB),     KC_Y,    KC_U,    KC_I,    KC_O,              KC_P,           KC_BSLS,
-  KC_H,         KC_J,    KC_K,    KC_L,    LT(MDIA, KC_SCLN), GUI_T(KC_QUOT),
-  MEH_T(KC_NO), KC_N,    KC_M,    KC_COMM, KC_DOT,            CTL_T(KC_SLSH), KC_RSFT,
-  KC_UP,        KC_DOWN, KC_LBRC, KC_RBRC, TT(SYMB),
-  KC_LALT, CTL_T(KC_ESC),
-  KC_PGUP,
-  KC_PGDN, KC_TAB, KC_ENT
+  TG(FUNC),        KC_7,            KC_8,      KC_9,     KC_0,       KC_MINUS,       LCMD(LCTL(KC_Q)),
+  KC_RBRACKET,     KC_J,            KC_L,      KC_U,     KC_Y,       KC_SCOLON,      KC_QUOTE,
+  KC_H,            KC_N,            KC_E,      KC_I,     KC_O,       KC_SLASH,
+  KC_RIGHT_PAREN,  KC_K,            KC_M,      KC_COMM,  KC_DOT,     KC_UP,          RSFT_T(KC_GRAVE),
+                                    KC_BSLASH, KC_EQUAL, KC_LEFT,    KC_DOWN,        KC_RIGHT,
+  DYN_MACRO_PLAY1, DYN_MACRO_PLAY2,
+  ALT_TAB,
+  LCMD(KC_SLASH),  KC_BSPACE,       KC_SPACE
 ),
-/* Keymap 1: Symbol Layer
- *
- * ,---------------------------------------------------.           ,--------------------------------------------------.
- * |Version  |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
- * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |   !  |   @  |   {  |   }  |   |  |      |           |      |   Up |   7  |   8  |   9  |   *  |   F12  |
- * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   #  |   $  |   (  |   )  |   `  |------|           |------| Down |   4  |   5  |   6  |   +  |        |
- * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   \  |        |
- * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   | EPRM  |      |      |      |      |                                       |      |    . |   0  |   =  |      |
- *   `-----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |Animat|      |       |Toggle|Solid |
- *                                 ,------|------|------|       |------+------+------.
- *                                 |Bright|Bright|      |       |      |Hue-  |Hue+  |
- *                                 |ness- |ness+ |------|       |------|      |      |
- *                                 |      |      |      |       |      |      |      |
- *                                 `--------------------'       `--------------------'
+/* Keymap 1: QWERTY Layer
+*
+* ,--------------------------------------------------.           ,--------------------------------------------------.
+* |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+* |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+* |        |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |  P   |        |
+* |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+* |        |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  | :  ; |        |
+* |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+* |  Shift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  | ?  / | Shift  |
+* `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+*   |      |      |QWERTY|      |      |                                       |      |      |      |      |      |
+*   `----------------------------------'                                       `----------------------------------'
+*                                        ,-------------.       ,---------------.
+*                                        |      |      |       |      |        |
+*                                 ,------|------|------|       |------+--------+------.
+*                                 |      |      |      |       |      |        |      |
+*                                 |      |      |------|       |------|        |      |
+*                                 |      |      |      |       |      |        |      |
+*                                 `--------------------'       `----------------------'
  */
-[SYMB] = LAYOUT_ergodox(
+[QWER] = LAYOUT_ergodox( // DID NOT CONFIGURE THIS YET!!
   // left hand
   VRSN,    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_TRNS,
   KC_TRNS, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, KC_TRNS,
@@ -98,28 +105,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS,
   KC_TRNS, RGB_HUD, RGB_HUI
 ),
-/* Keymap 2: Media and mouse keys
+/* Keymap 2: Function keys
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * | Esc/Fn | Brt- | Brt+ |Expose|KBrt- |KBrt+ | Mute |           |  Fn  | Vol- | Vol+ | Prev | Play | Next |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      | MsUp |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |      |      |      |      |  Play  |
+ * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      | Prev | Next |      |        |
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Mute |      |      |
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |Brwser|
- *                                 |      |      |------|       |------|      |Back  |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[MDIA] = LAYOUT_ergodox(
+[FUNC] = LAYOUT_ergodox(  // haven't configured this yet
   // left hand
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -144,6 +151,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     switch (keycode) {
+      case PTPASTE:
+        SEND_STRING (",.");
+        return false;
       case EPRM:
         eeconfig_init();
         return false;
@@ -158,6 +168,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
   return true;
+}
+
+// Super alt-tab
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case ALT_TAB:
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
+  }
+  return true;
+}
+void matrix_scan_user(void) {
+  if (is_alt_tab_active) {
+    if (timer_elapsed(alt_tab_timer) > 1000) {
+      unregister_code(KC_LALT);
+      is_alt_tab_active = false;
+    }
+  }
 }
 
 // Runs just one time when the keyboard initializes.
