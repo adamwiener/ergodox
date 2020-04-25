@@ -3,7 +3,7 @@
 
 #define BASE 0 // default layer (colemak layout)
 #define QWER 1 // qwerty layout
-#define FUNC 2 // function layer
+#define FCTN 2 // function layer
 #define STEN 3 // stenography
 #define EMOJ 4 // emoji
 
@@ -92,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [BASE] = LAYOUT_ergodox(
   // left hand
-  LT(FUNC, KC_ESC),    KC_1,             KC_2,         KC_3,        KC_4,         KC_5,         KC_6,
+  LT(FCTN, KC_ESC),    KC_1,             KC_2,         KC_3,        KC_4,         KC_5,         KC_6,
   KC_TAB,              KC_Q,             KC_W,         KC_F,        KC_P,         KC_G,         KC_LBRACKET,
   KC_LCMD,             KC_A,             KC_R,         KC_S,        KC_T,         KC_D,
   TG(STEN),            KC_Z,             KC_X,         KC_C,        KC_V,         KC_B,         KC_LEFT_PAREN,
@@ -172,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[FUNC] = LAYOUT_ergodox(
+[FCTN] = LAYOUT_ergodox(
   // left hand
   KC_TRNS,     KC_BRID,        KC_BRIU,      C(KC_UP),    KC_BRMD,    KC_BRMU,     KC__MUTE,
   KC_TRNS,     KC_TRNS,        KC_TRNS,      KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,
@@ -299,7 +299,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
       {255,255,255}, {255,255,255}, {255,255,255}, {255,255,255}, {255,255,255},
                      {0,0,0},       {0,0,0},       {255,0,0},     {0,0,0}
     },
-    [FUNC] = {
+    [FCTN] = {
       // right side NORMAL ORIENTATION
       {255,255,255}, {255,255,255}, {255,255,255}, {255,255,255}, {255,255,255},
       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
