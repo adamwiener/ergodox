@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
+#include "keymap_steno.h"
 
 #define BASE 0 // default layer (colemak layout)
 #define QWER 1 // qwerty layout
@@ -17,8 +18,8 @@ enum custom_keycodes {
   EPRM = SAFE_RANGE,
 #endif
   VRSN,
-  PTPASTE = SAFE_RANGE,
-  ALT_TAB = SAFE_RANGE,
+  PTPASTE,
+  ALT_TAB,
   RGB_SLD
 };
 
@@ -37,7 +38,7 @@ enum unicode_names {
   NAILS,
   FIRE,
   HEART,
-  SHRUG
+  SHRUG,
   UPSDOWN,
   PRAY,
   WAVE,
@@ -60,13 +61,13 @@ const uint32_t PROGMEM unicode_map[] = {
   [NAILS] = 0x1F485,
   [FIRE] = 0x1F525,
   [HEART] = 0xFE0F,
-  [SHRUG] = 0x1F937
+  [SHRUG] = 0x1F937,
   [UPSDOWN] = 0x1F643,
   [PRAY] = 0x1F64F,
   [WAVE] = 0x1F44B,
   [THUP] = 0x1F44D,
   [EYES] = 0x1F440
-}
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Default layer
@@ -226,7 +227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // right hand
   KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
   STN_ST3,    STN_N5,     STN_N6,     STN_N7,     STN_N8,     STN_N9,    KC_NO,
-              SFN_FR,     STN_PR,     STN_LR,     STN_TR,     STN_DR,    KC_NO,
+              STN_FR,     STN_PR,     STN_LR,     STN_TR,     STN_DR,    KC_NO,
   STN_ST4,    STN_RR,     STN_BR,     STN_GR,     STN_SR,     STN_ZR,    KC_NO,
                           KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
   KC_NO,      KC_NO,
@@ -343,6 +344,23 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     },
 };
 
+void set_layer_color(int layer) {
+  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+    HSV hsv = {
+      .h = pgm_read_byte(&ledmap[layer][i][0]),
+      .s = pgm_read_byte(&ledmap[layer][i][1]),
+      .v = pgm_read_byte(&ledmap[layer][i][2]),
+    };
+    if (!hsv.h && !hsv.s && !hsv.v) {
+        rgb_matrix_set_color( i, 0, 0, 0 );
+    } else {
+        RGB rgb = hsv_to_rgb( hsv );
+        float f = (float)rgb_matrix_config.hsv.v / UINT8_MAX;
+        rgb_matrix_set_color( i, f * rgb.r, f * rgb.g, f * rgb.b );
+    }
+  }
+}
+
 void rgb_matrix_indicators_user(void) {
   if (g_suspend_state || keyboard_config.disable_layer_led) { return; }
   switch (biton32(layer_state)) {
@@ -360,30 +378,16 @@ void rgb_matrix_indicators_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    switch (keycode) {
-      case PTPASTE:
-        SEND_STRING (",.");
-        return false;
-      case EPRM:
-        eeconfig_init();
-        return false;
-      case VRSN:
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        return false;
-      #ifdef RGBLIGHT_ENABLE
-      case RGB_SLD:
-        rgblight_mode(1);
-        return false;
-      #endif
-    }
-  }
-  return true;
-}
-
-// Super alt-tab
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    case PTPASTE:
+      SEND_STRING (",.");
+      return false;
+    case EPRM:
+      eeconfig_init();
+      return false;
+    case VRSN:
+      SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+      return false;
     case ALT_TAB:
       if (record->event.pressed) {
         if (!is_alt_tab_active) {
@@ -394,11 +398,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         register_code(KC_TAB);
       } else {
         unregister_code(KC_TAB);
-      }
-      break;
+      };
+    #ifdef RGBLIGHT_ENABLE
+    case RGB_SLD:
+      rgblight_mode(1);
+      return false;
+    #endif
   }
   return true;
 }
+
 void matrix_scan_user(void) {
   if (is_alt_tab_active) {
     if (timer_elapsed(alt_tab_timer) > 1000) {
@@ -413,6 +422,7 @@ void matrix_init_user(void) {
 #ifdef RGBLIGHT_COLOR_LAYER_0
   rgblight_setrgb(RGBLIGHT_COLOR_LAYER_0);
 #endif
+  steno_set_mode(STENO_MODE_GEMINI);
 };
 
 // Runs whenever there is a layer state change.
