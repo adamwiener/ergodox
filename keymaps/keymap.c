@@ -8,6 +8,7 @@
 #define STEN 3 // stenography
 #define EMOJ 4 // emoji
 
+#define TAP_MACRO 0
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
@@ -20,8 +21,11 @@ enum custom_keycodes {
   VRSN,
   PTPASTE,
   ALT_TAB,
-  RGB_SLD
+  RGB_SLD,
+  DYNAMIC_MACRO_RANGE
 };
+
+#include "dynamic_macro.h"
 
 enum unicode_names {
   HRTEYES,
@@ -84,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | <Tab | >Tab |QWERTY| Ctrl | Optn |                                       | | \  | + =  | Left | Down | Right|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | Emoji| 1P   |       | Mac1 | Macro2 |
+ *                                        | Emoji| 1P   |       | Mac1 |        |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      |PTPast|       |AltTab|        |      |
  *                                 | Shift|Enter |------|       |------|Backspce| Space|
@@ -107,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        KC_H,             KC_N,         KC_E,        KC_I,         KC_O,         KC_SLASH,
   KC_RIGHT_PAREN,      KC_K,             KC_M,         KC_COMM,     KC_DOT,       KC_UP,        RSFT_T(KC_GRAVE),
                                          KC_BSLASH,    KC_EQUAL,    KC_LEFT,      KC_DOWN,      KC_RIGHT,
-  DYN_MACRO_PLAY1,     DYN_MACRO_PLAY2,
+  TD(TAP_MACRO),       KC_NO,
   ALT_TAB,
   LCMD(KC_SLASH),      KC_BSPACE,        KC_SPACE
 ),
@@ -377,35 +381,83 @@ void rgb_matrix_indicators_user(void) {
   }
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case PTPASTE:
-      SEND_STRING (",.");
-      return false;
-    case EPRM:
-      eeconfig_init();
-      return false;
-    case VRSN:
-      SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-      return false;
-    case ALT_TAB:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
-      } else {
-        unregister_code(KC_TAB);
-      };
-    #ifdef RGBLIGHT_ENABLE
-    case RGB_SLD:
-      rgblight_mode(1);
-      return false;
-    #endif
+// TAP DANCE
+// from https://github.com/qmk/qmk_firmware/blob/master/keyboards/ergodox_ez/keymaps/bpruitt-goddard/keymap.c
+// Whether the macro 1 is currently being recorded.
+static bool is_macro1_recording = false;
+
+// Method called at the end of the tap dance on the TAP_MACRO key. That key is
+// used to start recording a macro (double tap or more), to stop recording (any
+// number of tap), or to play the recorded macro (1 tap).
+void macro_tapdance_fn(qk_tap_dance_state_t *state, void *user_data) {
+  uint16_t keycode;
+  keyrecord_t record;
+  dprintf("macro_tap_dance_fn %d\n", state->count);
+  if (is_macro1_recording) {
+    keycode = DYN_REC_STOP;
+    is_macro1_recording = false;
+    layer_state_set_user(current_layer_state);
+  } else if (state->count == 1) {
+    keycode = DYN_MACRO_PLAY1;
+  } else {
+    keycode = DYN_REC_START1;
+    is_macro1_recording = true;
+    layer_state_set_user(current_layer_state);
   }
-  return true;
+  record.event.pressed = true;
+  process_record_dynamic_macro(keycode, &record);
+  record.event.pressed = false;
+  process_record_dynamic_macro(keycode, &record);
+}
+// The definition of the tap dance actions:
+qk_tap_dance_action_t tap_dance_actions[] = {
+  // This Tap dance plays the macro 1 on TAP and records it on double tap.
+  [TAP_MACRO] = ACTION_TAP_DANCE_FN(macro_tapdance_fn)
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (keycode != TD(TAP_MACRO)) {
+    // That key is processed by the macro_tapdance_fn. Not ignoring it here is
+    // mostly a no-op except that it is recorded in the macros (and uses space).
+    // We can't just return false when the key is a tap dance, because
+    // process_record_user, is called before the tap dance processing (and
+    // returning false would eat the tap dance).
+    if (!process_record_dynamic_macro(keycode, record)) {
+      return false;
+    }
+
+    if(record->event.pressed) {
+      switch (keycode) {
+        case PTPASTE:
+          SEND_STRING (",.");
+          return false;
+        case EPRM:
+          eeconfig_init();
+          return false;
+        case VRSN:
+          SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+          return false;
+        case ALT_TAB:
+          if (record->event.pressed) {
+            if (!is_alt_tab_active) {
+              is_alt_tab_active = true;
+              register_code(KC_LALT);
+            }
+            alt_tab_timer = timer_read();
+            register_code(KC_TAB);
+          } else {
+            unregister_code(KC_TAB);
+          };
+        #ifdef RGBLIGHT_ENABLE
+        case RGB_SLD:
+          rgblight_mode(1);
+          return false;
+        #endif
+      }
+    }
+  }
+
+  return true; // Let QMK send the enter press/release events
 }
 
 void matrix_scan_user(void) {
