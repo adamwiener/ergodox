@@ -46,6 +46,26 @@ enum unicode_names {
   EYES
 };
 
+//Tap Dance for macro recording
+static bool is_macro_recording = false;
+enum {
+  TAP_MACRO = 0
+};
+void start_stop_macro(qk_tap_dance_state_t *state, void *user_data) {
+  if (is_macro_recording) {
+    tap_code16(DYN_REC_STOP);
+    is_macro_recording = false;
+  } else if (state->count == 1) {
+    tap_code16(DYN_MACRO_PLAY1);
+  } else {
+    tap_code16(DYN_REC_START1);
+    is_macro_recording = true;
+  }
+};
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TAP_MACRO] = ACTION_TAP_DANCE_FN (start_stop_macro)
+};
+
 const uint32_t PROGMEM unicode_map[] = {
   [HRTEYES] = 0x1F60D,
   [WINK] = 0x1F609,
@@ -84,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | <Tab | >Tab |QWERTY| Ctrl | Optn |                                       | | \  | + =  | Left | Down | Right|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | Emoji| 1P   |       | Mac1 | Macro2 |
+ *                                        | Emoji| 1P   |       |Macro |        |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      |PTPast|       |AltTab|        |      |
  *                                 | Shift|Enter |------|       |------|Backspce| Space|
@@ -107,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        KC_H,             KC_N,         KC_E,        KC_I,         KC_O,         KC_SLASH,
   KC_RIGHT_PAREN,      KC_K,             KC_M,         KC_COMM,     KC_DOT,       KC_UP,        RSFT_T(KC_GRAVE),
                                          KC_BSLASH,    KC_EQUAL,    KC_LEFT,      KC_DOWN,      KC_RIGHT,
-  DYN_MACRO_PLAY1,     DYN_MACRO_PLAY2,
+  TAP_MACRO,           KC_NO,
   ALT_TAB,
   LCMD(KC_SLASH),      KC_BSPACE,        KC_SPACE
 ),
