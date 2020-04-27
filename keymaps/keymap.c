@@ -9,6 +9,12 @@
 #define STEN 4 // stenography
 #define EMOJ 5 // emoji
 
+// todo
+// double tap for lock
+// move window shortcuts
+// copy paste shortcut
+
+
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
@@ -94,12 +100,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Default layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc/Fn |   1  |   2  |   3  |   4  |   5  |  6   |           | Lock |   7  |   8  |   9  |   0  |   -  | Delete |
+ * | Esc/Fn |   1  |   2  |   3  |   4  |   5  |      |           | Lock |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   W  |   F  |   P  |   G  |  {   |           |  }   |   J  |   L  |   U  |   Y  |  :/; |  "  '  |
- * |--------+------+------+------+------+------|  [   |           |  ]   |------+------+------+------+------+--------|
+ * | Tab    |   Q  |   W  |   F  |   P  |   G  |  (   |           |  )   |   J  |   L  |   U  |   Y  |  :/; |  "  '  |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * | Cmd    |   A  |   R  |   S  |   T  |   D  |------|           |------|   H  |   N  |   E  |   I  |   O  |  ?  /  |
- * |--------+------+------+------+------+------|  (   |           |  )   |------+------+------+------+------+--------|
+ * |--------+------+------+------+------+------|      |           |Enter |------+------+------+------+------+--------|
  * | Steno  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   K  |   M  |   ,  |   .  |  Up  | ` Shft |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   | <Tab | >Tab |QWERTY| Ctrl | Optn |                                       | | \  | + =  | Left | Down | Right|
@@ -108,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        | Emoji| 1P   |       |Macro | Numpad |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      |PTPast|       |AltTab|        |      |
- *                                 | Shift|Enter |------|       |------|Backspce| Space|
+ *                                 |Bkspce|Shift |------|       |------|        | Space|
  *                                 |      |      |PMenu |       |Locale|        |      |
  *                                 `--------------------'       `----------------------'
  */
@@ -119,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LCMD,             KC_A,             KC_R,         KC_S,        KC_T,         KC_D,
   TG(STEN),            KC_Z,             KC_X,         KC_C,        KC_V,         KC_B,         KC_LEFT_PAREN,
   LCMD(KC_LBRC),       LCMD(KC_RBRC),    TG(QWER),     KC_LCTRL,    KC_LOPT,
-                                                                                  MO(EMOJ),     LCMD(KC_BSLASH),
+                                                                                  C(G(KC_SPC)), LCMD(KC_BSLASH),
                                                                                                 PTPASTE,
                                                                     KC_LSHIFT,    KC_ENTER,     LCMD(LOPT(KC_V)),
   // right hand
@@ -249,7 +255,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_HOME,
   KC_NO,      KC_NO,      KC_P7,      KC_P8,      KC_P9,      KC_PSLS,   KC_END,
               KC_NO,      KC_P4,      KC_P5,      KC_P6,      KC_PAST,   KC_PGUP,
-  KC_NO,      KC_NO,      KC_P1,      KC_P2,      KC_P3,      KC_PPLS    KC_PGDN,
+  KC_NO,      KC_NO,      KC_P1,      KC_P2,      KC_P3,      KC_PPLS,    KC_PGDN,
                           KC_P0,      KC_PDOT,    KC_PEQL,    KC_PMNS,   KC_NO,
   KC_NO,      KC_TRNS,
   KC_NO,
@@ -347,7 +353,20 @@ void keyboard_post_init_user(void) {
 }
 
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
-//  [BASE]  BASE has no colors
+    [BASE] = {
+      // right side NORMAL ORIENTATION
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+                     {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      // left side MIRRORED
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+                     {0,0,0},       {0,0,0},       {255,0,0},     {0,0,0}
+    },
     [QWER] = {
       // right side NORMAL ORIENTATION
       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
@@ -468,7 +487,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         if (!is_alt_tab_active) {
           is_alt_tab_active = true;
-          register_code(KC_LALT);
+          register_code(KC_LCMD);
         }
         alt_tab_timer = timer_read();
         register_code(KC_TAB);
@@ -487,7 +506,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_scan_user(void) {
   if (is_alt_tab_active) {
     if (timer_elapsed(alt_tab_timer) > 1000) {
-      unregister_code(KC_LALT);
+      unregister_code(KC_LCMD);
       is_alt_tab_active = false;
     }
   }
