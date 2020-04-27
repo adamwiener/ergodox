@@ -5,8 +5,9 @@
 #define BASE 0 // default layer (colemak layout)
 #define QWER 1 // qwerty layout
 #define FCTN 2 // function layer
-#define STEN 3 // stenography
-#define EMOJ 4 // emoji
+#define NUMP 3 // numpad
+#define STEN 4 // stenography
+#define EMOJ 5 // emoji
 
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
@@ -104,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | <Tab | >Tab |QWERTY| Ctrl | Optn |                                       | | \  | + =  | Left | Down | Right|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,---------------.
- *                                        | Emoji| 1P   |       |Macro |        |
+ *                                        | Emoji| 1P   |       |Macro | Numpad |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      |PTPast|       |AltTab|        |      |
  *                                 | Shift|Enter |------|       |------|Backspce| Space|
@@ -127,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        KC_H,             KC_N,         KC_E,        KC_I,         KC_O,         KC_SLASH,
   KC_RIGHT_PAREN,      KC_K,             KC_M,         KC_COMM,     KC_DOT,       KC_UP,        RSFT_T(KC_GRAVE),
                                          KC_BSLASH,    KC_EQUAL,    KC_LEFT,      KC_DOWN,      KC_RIGHT,
-  TAP_MACRO,           KC_NO,
+  TAP_MACRO,           TG(NUMP),
   ALT_TAB,
   LCMD(KC_SLASH),      KC_BSPACE,        KC_SPACE
 ),
@@ -213,7 +214,48 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS,
   KC_TRNS,     KC_TRNS,        KC_TRNS
 ),
-/* Keymap 3: Stenography
+/* Keymap 3: Numpad
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |  Home  |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |  7   |  8   |  9   |  /   |  End   |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |------|           |------|      |  4   |  5   |  6   |  *   |  PgUp  |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |  1   |  2   |  3   |  +   |  PgDn  |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |  0   |  .   |  =   |  -   |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |Numpad|
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+[NUMP] = LAYOUT_ergodox(
+  // left hand
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_NO,
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+                                                              KC_NO,     KC_NO,
+                                                                         KC_NO,
+                                                  KC_NO,      KC_NO,     KC_NO,
+  // right hand
+  KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,     KC_HOME,
+  KC_NO,      KC_NO,      KC_P7,      KC_P8,      KC_P9,      KC_PSLS,   KC_END,
+              KC_NO,      KC_P4,      KC_P5,      KC_P6,      KC_PAST,   KC_PGUP,
+  KC_NO,      KC_NO,      KC_P1,      KC_P2,      KC_P3,      KC_PPLS    KC_PGDN,
+                          KC_P0,      KC_PDOT,    KC_PEQL,    KC_PMNS,   KC_NO,
+  KC_NO,      KC_TRNS,
+  KC_NO,
+  KC_NO,      KC_NO,      KC_NO
+),
+/* Keymap 4: Stenography
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -254,7 +296,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,
   KC_NO,      STN_E,      STN_U
 ),
-/* Keymap 4: Emoji
+/* Keymap 5: Emoji
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -329,6 +371,20 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
                      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
       // left side MIRRORED
       {255,255,255}, {255,255,255}, {255,255,255}, {255,255,255}, {255,255,255},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+                     {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0}
+    },
+    [NUMP] = {
+      // right side NORMAL ORIENTATION
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
+      {0,0,0},       {0,255,64},    {0,255,64},    {0,255,64},    {0,64,255},
+      {0,0,0},       {0,255,64},    {0,255,64},    {0,255,64},    {0,64,255},
+      {0,0,0},       {0,255,64},    {0,255,64},    {0,255,64},    {0,64,255},
+                     {0,255,64},    {0,0,0},       {255,15,15},   {0,64,255},
+      // left side MIRRORED
+      {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},       {0,0,0},
